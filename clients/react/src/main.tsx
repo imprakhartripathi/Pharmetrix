@@ -21,6 +21,7 @@ import { isAuthenticated } from "./services/session";
 import Streaming from "./components/Stream/Streaming";
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
 import AppRoot from "./components/AppRoot/AppRoot";
+import Inventory from "./pages/Inventory";
 
 // Protected layout that centralizes auth check via session service
 const ProtectedLayout: React.FC = () => {
@@ -60,6 +61,7 @@ const router = createBrowserRouter([
         element: <ProtectedLayout />, // wrapper for protected routes
         children: [
           { path: "/dashboard", element: <Dashboard /> },
+          { path: "/inventory", element: <Inventory /> },
           // Created by Aditya Goyal for streaming page: Add route to access the live camera streaming page under protected routes
           { path: "/streaming", element: <Streaming /> },
         ],

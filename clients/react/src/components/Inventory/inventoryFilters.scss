@@ -1,0 +1,81 @@
+@use '../../styles/variables' as *;
+
+.inventory-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  align-items: center;
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: $tablet) {
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba(40, 53, 147, 0.1);
+      }
+
+      &.focused {
+        box-shadow: 0 0 0 3px rgba(40, 53, 147, 0.1);
+      }
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      width: 20px;
+      height: 20px;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+  }
+
+  .refresh-btn {
+    background: #f3f4f6;
+    color: $primary;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: #e5e7eb;
+      transform: rotate(180deg);
+    }
+  }
+}
