@@ -6,7 +6,7 @@ import { requireSelf } from "./middleware/ownership.middleware";
 import { requireOrgRole } from "./middleware/rbac.middleware";
 
 import { createOrganization, addUserToOrganization, getInventory } from "./controllers/org.controller";
-import { addMedicine, sellMedicine, discardBatch, markExpiredBatches } from "./controllers/inventory.controller";
+import { addMedicine, sellMedicine, discardBatch, markExpiredBatches, getMedicineByBarcode } from "./controllers/inventory.controller";
 import { getStockSummary, getLowStock } from "./controllers/reports.controller";
 import { submitContact } from "./controllers/contact.controller";
 import { sendOtp, verifyOtp } from "./controllers/otp.controller";
@@ -45,6 +45,7 @@ router.get('/orgs/:orgId/inventory', authenticate, requireOrgRole("ANY" as any),
 router.get('/orgs/:orgId/reports/stock-summary', authenticate, requireOrgRole(["Admin", "Inventory Manager"] as any), getStockSummary);
 router.get('/orgs/:orgId/reports/low-stock', authenticate, requireOrgRole(["Admin", "Inventory Manager"] as any), getLowStock);
 
+router.get('/orgs/:orgId/medicines/:barcode', authenticate, requireOrgRole("ANY" as any), getMedicineByBarcode);
 router.post('/orgs/:orgId/medicines', authenticate, requireOrgRole(["Admin", "Inventory In"] as any), addMedicine);
 router.post('/orgs/:orgId/sell', authenticate, requireOrgRole(["Admin", "Salesperson"] as any), sellMedicine);
 router.post('/orgs/:orgId/batches/:batchId/discard', authenticate, requireOrgRole(["Admin", "Inventory Manager"] as any), discardBatch);

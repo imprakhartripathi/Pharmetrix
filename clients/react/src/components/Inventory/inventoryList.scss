@@ -1,0 +1,229 @@
+@use '../../styles/variables' as *;
+
+.inventory-list-container {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      background: #f9fafb;
+      border-bottom: 2px solid #e5e7eb;
+
+      th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: $primary;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background: #f9fafb;
+        }
+
+        &.expired {
+          background: #fef2f2;
+
+          td {
+            color: #dc2626;
+          }
+        }
+
+        &.expiring-soon {
+          background: #fef3c7;
+
+          td {
+            color: #d97706;
+          }
+        }
+
+        td {
+          padding: 1rem;
+          font-size: 0.95rem;
+          color: $text-dark;
+
+          &.barcode-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+          }
+
+          &.name-cell {
+            .medicine-info {
+              .medicine-name {
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+              }
+
+              .medicine-desc {
+                font-size: 0.8rem;
+                color: #6b7280;
+              }
+            }
+          }
+
+          &.type-cell {
+            .medicine-type {
+              display: inline-block;
+              padding: 0.25rem 0.75rem;
+              background: #dbeafe;
+              color: #1e40af;
+              border-radius: 20px;
+              font-size: 0.8rem;
+              font-weight: 500;
+            }
+          }
+
+          &.qty-cell {
+            .qty-badge {
+              display: inline-block;
+              padding: 0.5rem 0.75rem;
+              border-radius: 6px;
+              font-weight: 600;
+              font-size: 0.85rem;
+              background: #d1fae5;
+              color: $accent;
+
+              &.low-stock {
+                background: #fef08a;
+                color: #ca8a04;
+              }
+
+              &.out-of-stock {
+                background: #fee2e2;
+                color: #dc2626;
+              }
+            }
+          }
+
+          &.price-cell {
+            font-weight: 600;
+            color: $secondary;
+          }
+
+          &.date-cell {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+
+            &.expired-text {
+              color: #dc2626;
+              font-weight: 600;
+            }
+
+            &.warning-text {
+              color: #d97706;
+              font-weight: 600;
+            }
+          }
+
+          &.batches-cell {
+            .batch-count {
+              display: inline-block;
+              padding: 0.35rem 0.65rem;
+              background: #f3f4f6;
+              border-radius: 6px;
+              font-weight: 600;
+              font-size: 0.85rem;
+              color: #374151;
+            }
+          }
+
+          &.actions-cell {
+            display: flex;
+            gap: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.edit-btn {
+    color: $secondary;
+
+    &:hover {
+      background: #e0f2fe;
+      border-color: $secondary;
+    }
+  }
+
+  &.discard-btn {
+    color: #ef4444;
+
+    &:hover {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+  }
+}
+
+.inventory-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  color: #9ca3af;
+  text-align: center;
+
+  svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    color: #d1d5db;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: $text-dark;
+  }
+
+  .empty-hint {
+    font-size: 0.95rem;
+    color: #9ca3af;
+  }
+}
