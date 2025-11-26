@@ -1,4 +1,4 @@
-import { AuditLog } from "../mongodb/schematics/AuditLog";
+import { AuditLog } from "../mongodb/models/audit";
 
 export async function audit(action: string, status: "success" | "failure", options: {
   actorId?: string | null,

@@ -59,6 +59,10 @@ export function isAuthenticated(): boolean {
   return checkSession().isValid
 }
 
+export function tokenExists(): boolean {
+  return !!getToken()
+}
+
 export function clearSession() {
   localStorage.removeItem(TOKEN_KEY)
 }

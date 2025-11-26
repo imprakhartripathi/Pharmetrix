@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "./auth.middleware";
-import { Organization, OrgRole } from "../mongodb/schematics/Organization";
+import { Organization, OrgRole } from "../mongodb/models/organization";
 
 // Loads the caller's role in the organization into req for later use
 export const requireOrgRole = (roles: OrgRole[] | "ANY") => {

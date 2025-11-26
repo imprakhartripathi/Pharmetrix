@@ -1,11 +1,10 @@
-import React, { StrictMode, useEffect, useState } from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
   Outlet,
-  useNavigate,
 } from "react-router-dom";
 import "./styles/global.scss";
 
@@ -22,21 +21,15 @@ import Streaming from "./components/Stream/Streaming";
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
 import AppRoot from "./components/AppRoot/AppRoot";
 import Inventory from "./pages/Inventory";
+import { SessionProvider } from "./context/SessionContext";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
-// Protected layout that centralizes auth check via session service
 const ProtectedLayout: React.FC = () => {
-  const [checked, setChecked] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/auth", { replace: true });
-    }
-    setChecked(true);
-  }, [navigate]);
-
-  if (!checked) return <div>Loading...</div>;
-  return <Outlet />;
+  return (
+    <ProtectedRoute>
+      <Outlet />
+    </ProtectedRoute>
+  );
 };
 
 // Root redirect: if authenticated -> /dashboard; else -> /landed
@@ -76,6 +69,8 @@ if (!container) throw new Error("Root container missing in index.html");
 
 createRoot(container).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <SessionProvider>
+      <RouterProvider router={router} />
+    </SessionProvider>
   </StrictMode>
 );

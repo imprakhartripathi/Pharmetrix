@@ -1,22 +1,139 @@
 .session-banner {
   position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 6px 20px rgba(2,6,23,0.08);
-  border-radius: 10px;
+  bottom: 16px;
+  left: 16px;
+  transform: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.98));
+  border: 1px solid rgba(15,23,42,0.06);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+  border-radius: 12px;
   padding: 12px 14px;
   z-index: 2000;
-  max-width: 920px;
+  max-width: 640px;
+  min-width: 360px;
+  width: calc(100% - 48px);
+}
+
+.session-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.session-modal-container {
+  width: 90%;
+  max-width: 400px;
+}
+
+.session-modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.session-modal-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #1a202c;
+}
+
+.session-modal-message {
+  font-size: 14px;
+  color: #4a5568;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.session-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.session-modal-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.session-modal-btn-primary {
+  background: #3b82f6;
+  color: white;
+
+  &:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.session-modal-btn-secondary {
+  background: #e2e8f0;
+  color: #1a202c;
+
+  &:hover {
+    background: #cbd5e0;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.session-modal-timer {
+  font-size: 12px;
+  color: #a0aec0;
+  margin: 0;
+  font-style: italic;
 }
 
 .session-banner__content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
 
 .session-banner__msg {
@@ -35,6 +152,7 @@
   border: none;
   cursor: pointer;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -45,4 +163,42 @@
 .btn-ghost {
   background: transparent;
   color: #333;
+}
+
+/* Responsive: on very small screens make banner full-width and stack actions */
+@media (max-width: 520px) {
+  .session-banner {
+    left: 8px;
+    right: 8px;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+    padding: 12px;
+  }
+
+  .session-banner__content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .session-banner__actions {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .session-banner__actions .btn {
+    width: 100%;
+  }
+}
+
+/* On larger screens keep actions inline and avoid full-width buttons */
+@media (min-width: 521px) {
+  .session-banner__content {
+    flex-direction: row;
+  }
+
+  .session-banner__actions .btn {
+    width: auto;
+  }
 }

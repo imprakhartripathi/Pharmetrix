@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import SessionManager from "../SessionManager/SessionManager";
+import GlobalSessionManager from "../SessionManager/GlobalSessionManager";
 
 export default function AppRoot() {
   return (
     <>
-      <SessionManager />
+      <GlobalSessionManager />
       <Outlet />
     </>
   );

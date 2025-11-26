@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import User, { Expiration } from "../mongodb/schematics/User";
+import { User, Expiration } from "../mongodb/models/user";
 
 export const updateUser = async (
   req: Request,

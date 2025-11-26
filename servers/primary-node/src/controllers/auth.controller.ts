@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User, { IUser } from "../mongodb/schematics/User";
+import { User, IUser } from "../mongodb/models/user";
 import { generateISTTimestamp, jwtKey } from "../app.config";
 
 export const signup = async (

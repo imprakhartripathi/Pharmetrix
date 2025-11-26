@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { isAuthenticated } from "../../services/session";
+import { usePageSEO } from "../../hooks/usePageSEO";
 import "./Authenticator.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +17,14 @@ export default function Authenticator() {
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  usePageSEO({
+    title: "Sign In - Pharmetrix Smart Pharmacy Management",
+    description: "Access your Pharmetrix account to manage inventory, monitor temperature sensors, process sales, and view compliance reports.",
+    keywords: "pharmacy login, sign in, pharmacy management login, inventory management system login",
+    ogUrl: "https://pharmetrix.onrender.com/auth",
+    canonical: "https://pharmetrix.onrender.com/auth",
+  });
 
   useEffect(() => {
     if (isAuthenticated()) navigate("/dashboard");
@@ -150,9 +159,10 @@ export default function Authenticator() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.35 }}
+            aria-labelledby="login-title"
           >
             <div className="form-header">
-              <h2>Sign in</h2>
+              <h2 id="login-title">Sign in</h2>
               <p>Enter your credentials to continue</p>
             </div>
 

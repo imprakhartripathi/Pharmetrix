@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { Organization, OrgRole } from "../mongodb/schematics/Organization";
+import { Organization, OrgRole } from "../mongodb/models/organization";
 import { notifyUsers } from "./notification.controller";
 
 export function initializeExpiryScheduler() {

@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactElement } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { checkSession } from './services/session'
 
 const API_URL = (() => {
   const envUrl = (import.meta.env.PRIMARY_BACKEND_URL as string | undefined) ?? 'http://localhost:4200'
@@ -9,39 +9,47 @@ const API_URL = (() => {
 })()
 
 export default function ProtectedRoute({ children }: { children: ReactElement }) {
-  const navigate = useNavigate()
   const [allowed, setAllowed] = useState<boolean | null>(null)
 
   useEffect(() => {
     let cancelled = false
     async function check() {
       try {
-        const token = localStorage.getItem('authToken')
-        if (!token) {
-          if (!cancelled) setAllowed(false)
+        // Check local session validity
+        const sessionCheck = checkSession()
+        if (!sessionCheck.isValid) {
+          // Invalid locally - SessionManager will handle the popup/redirect
+          if (!cancelled) setAllowed(true) // Allow render so SessionManager can show popup
           return
         }
+
+        const token = localStorage.getItem('token')
+        if (!token) {
+          if (!cancelled) setAllowed(true) // Allow render so SessionManager can handle it
+          return
+        }
+
+        // Verify token with backend
         const resp = await fetch(`${API_URL}/check-token`, {
           method: 'GET',
           headers: { Authorization: `Bearer ${token}` }
         })
-        if (!cancelled) setAllowed(resp.ok)
+
         if (!resp.ok) {
-          // Token invalid/expired → clear and redirect
-          localStorage.removeItem('authToken')
-          localStorage.removeItem('authUser')
-          navigate('/')
+          // Invalid on backend - SessionManager will handle the popup/redirect
+          if (!cancelled) setAllowed(true) // Allow render
+          return
         }
-      } catch {
-        if (!cancelled) setAllowed(false)
-        navigate('/')
+
+        if (!cancelled) setAllowed(true)
+      } catch (err) {
+        if (!cancelled) setAllowed(true) // Allow render so SessionManager can handle errors
       }
     }
     check()
     return () => { cancelled = true }
-  }, [navigate])
+  }, [])
 
-  if (allowed === null) return null // or a loader
-  if (!allowed) return null
+  if (allowed === null) return null // loading state
   return children
 }

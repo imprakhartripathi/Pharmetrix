@@ -1,5 +1,6 @@
 import { Response, NextFunction } from "express";
-import { Organization, MedicineType } from "../mongodb/schematics/Organization";
+import { Organization } from "../mongodb/models/organization";
+import { MedicineType } from "../mongodb/models/inventory";
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
 import { randomUUID } from "crypto";
 

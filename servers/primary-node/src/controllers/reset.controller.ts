@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import User from "../mongodb/schematics/User";
+import { User } from "../mongodb/models/user";
 import { verifyOtpRecord } from "./otp.controller";
 
 export const resetPassword = async (req: Request, res: Response, _next: NextFunction) => {

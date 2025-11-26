@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Organization } from "../mongodb/schematics/Organization";
+import { Organization } from "../mongodb/models/organization";
 
 // Simple aggregated reports (can be evolved into Mongo aggregations)
 export const getStockSummary = async (req: Request, res: Response, next: NextFunction) => {

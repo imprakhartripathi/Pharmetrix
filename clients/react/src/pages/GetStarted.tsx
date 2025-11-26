@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
+import { usePageSEO } from '../hooks/usePageSEO'
 
 const API_URL = (() => {
   const envUrl = (import.meta.env.PRIMARY_BACKEND_URL as string | undefined) ?? 'http://localhost:4200'
@@ -38,6 +39,14 @@ type SignupResp = {
 export default function GetStarted() {
   const isMobile = useIsMobile(768)
   const navigate = useNavigate()
+
+  usePageSEO({
+    title: "Sign Up & Get Started - Pharmetrix Pharmacy Management",
+    description: "Create your Pharmetrix account in minutes. Manage your pharmacy's inventory, monitor cold-chain, process sales, and ensure compliance. Three simple steps: create account, verify email, and set up your organization.",
+    keywords: "pharmacy software signup, create account, register pharmacy management system, pharmacy setup",
+    ogUrl: "https://pharmetrix.onrender.com/get-started",
+    canonical: "https://pharmetrix.onrender.com/get-started",
+  });
 
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0)
 
@@ -201,10 +210,10 @@ export default function GetStarted() {
   ] as const
 
   return (
-    <main style={pageWrap} aria-labelledby="get-started-title">
-      <div style={bgLayer} />
-      <div style={bgAccentLeft} />
-      <div style={bgAccentRight} />
+    <main style={pageWrap} aria-labelledby="get-started-title" role="main">
+      <div style={bgLayer} aria-hidden="true" />
+      <div style={bgAccentLeft} aria-hidden="true" />
+      <div style={bgAccentRight} aria-hidden="true" />
 
       <div style={{ ...contentWrap, ...(isMobile ? contentWrapMobile : null) }}>
         <motion.div variants={fadeUp} initial="hidden" animate="show" style={{ ...promoPane, ...(isMobile ? promoPaneMobile : null) }}>

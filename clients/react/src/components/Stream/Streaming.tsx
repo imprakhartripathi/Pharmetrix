@@ -17,12 +17,12 @@ const Streaming: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Mock data for demo - Replace this with your actual API call
-  const [availablePis, setAvailablePis] = useState<PiDevice[]>([
+  const availablePis: PiDevice[] = [
     { id: 'pi_001', name: 'Kitchen Camera', status: 'online' },
     { id: 'pi_002', name: 'Living Room Camera', status: 'online' },
     { id: 'pi_003', name: 'Garage Camera', status: 'offline' },
     { id: 'pi_004', name: 'Front Door Camera', status: 'online' },
-  ]);
+  ];
 
   const getToken = () => localStorage.getItem('token');
 

@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Allow: /landed
+Allow: /auth
+Allow: /get-started
+Allow: /support
+Allow: /development
+
+Disallow: /dashboard
+Disallow: /streaming
+Disallow: /resetpw
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://pharmetrix.onrender.com/sitemap.xml
+
+Crawl-delay: 1
+Request-rate: 1/1s

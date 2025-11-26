@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../mongodb/schematics/User";
-import { Notification, NotificationType } from "../mongodb/schematics/Notifications";
+import { User } from "../mongodb/models/user";
+import { NotificationType } from "../mongodb/models/notifications";
 
 export const notifyUser = async (userId: string, title: string, desc: string) => {
   try {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { Organization, OrgRole } from "../mongodb/schematics/Organization";
-import User from "../mongodb/schematics/User";
+import { Organization, OrgRole } from "../mongodb/models/organization";
+import { User } from "../mongodb/models/user";
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
 
 import { audit } from "../utils/audit";
