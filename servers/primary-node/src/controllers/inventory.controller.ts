@@ -267,3 +267,23 @@ export const markExpiredBatches = async (
     next(err);
   }
 };
+
+export const getMedicineByBarcode = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { orgId, barcode } = req.params as { orgId: string; barcode: string };
+
+    const org = await Organization.findById(orgId);
+    if (!org) return res.status(404).json({ message: "Organization not found" });
+
+    const med = org.inventory.find((m: any) => m.barcodeNo === barcode);
+    if (!med) return res.status(404).json({ message: "Medicine not found" });
+
+    return res.status(200).json(med);
+  } catch (err) {
+    next(err);
+  }
+};
