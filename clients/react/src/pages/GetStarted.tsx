@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import { usePageSEO } from '../hooks/usePageSEO'
+import { useSession } from '../context/SessionContext'
 
 const API_URL = (() => {
   const envUrl = (import.meta.env.PRIMARY_BACKEND_URL as string | undefined) ?? 'http://localhost:4200'
@@ -39,6 +40,7 @@ type SignupResp = {
 export default function GetStarted() {
   const isMobile = useIsMobile(768)
   const navigate = useNavigate()
+  const { validateSession } = useSession()
 
   usePageSEO({
     title: "Sign Up & Get Started - Pharmetrix Pharmacy Management",
@@ -114,8 +116,9 @@ export default function GetStarted() {
       setToken(d.token)
 
       // persist auth for protected routes
-      localStorage.setItem('authToken', d.token)
+      localStorage.setItem('token', d.token)
       localStorage.setItem('authUser', JSON.stringify(d.user))
+      validateSession()
 
       setSuccess('Account created. Please verify your email.')
 
@@ -191,6 +194,7 @@ export default function GetStarted() {
       const data = await resp.json()
       if (!resp.ok) throw new Error(data?.message || 'Failed to create organization')
       setSuccess('Organization created successfully.')
+      validateSession()
       // After mandatory org creation, go to dashboard
       navigate('/dashboard')
     } catch (err: any) {

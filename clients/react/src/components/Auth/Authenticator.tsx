@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { isAuthenticated } from "../../services/session";
 import { usePageSEO } from "../../hooks/usePageSEO";
+import { useSession } from "../../context/SessionContext";
 import "./Authenticator.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,7 @@ import { API_URL } from "../../services/env";
 
 export default function Authenticator() {
   const navigate = useNavigate();
+  const { validateSession } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -52,6 +54,7 @@ export default function Authenticator() {
         if (data?.user) {
           localStorage.setItem("authUser", JSON.stringify(data.user));
         }
+        validateSession();
       }
 
       navigate("/dashboard");

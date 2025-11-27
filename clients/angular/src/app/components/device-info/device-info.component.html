@@ -1,0 +1,111 @@
+<div class="device-info-container">
+  <!-- Loading State -->
+  @if (isLoading) {
+  <div class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading device information...</p>
+  </div>
+  }
+
+  <!-- Device Info Content -->
+  @if (!isLoading && deviceInfo) {
+  <div class="info-content">
+    <!-- Device Identity -->
+    <div class="info-section">
+      <h3>Device Identity</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Model</label>
+          <p>{{ deviceInfo.model }}</p>
+        </div>
+        <div class="info-item">
+          <label>Serial Number</label>
+          <p>{{ deviceInfo.serialNumber }}</p>
+        </div>
+        <div class="info-item">
+          <label>Hardware Version</label>
+          <p>{{ deviceInfo.hardwareVersion }}</p>
+        </div>
+        <div class="info-item">
+          <label>Firmware Version</label>
+          <p>{{ deviceInfo.firmwareVersion }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Resources -->
+    <div class="info-section">
+      <h3>System Resources</h3>
+
+      <div class="resource-item">
+        <div class="resource-header">
+          <label>CPU Usage</label>
+          <span class="percentage">{{ deviceInfo.cpuUsage.toFixed(1) }}%</span>
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="deviceInfo.cpuUsage"
+          [class.high]="deviceInfo.cpuUsage > 80">
+        </mat-progress-bar>
+      </div>
+
+      <div class="resource-item">
+        <div class="resource-header">
+          <label>Memory Usage</label>
+          <span class="percentage">{{ deviceInfo.memoryUsage.toFixed(1) }}%</span>
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="deviceInfo.memoryUsage"
+          [class.high]="deviceInfo.memoryUsage > 80">
+        </mat-progress-bar>
+      </div>
+
+      <div class="resource-item">
+        <div class="resource-header">
+          <label>Disk Usage</label>
+          <span class="percentage">{{ deviceInfo.diskUsage.toFixed(1) }}%</span>
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="deviceInfo.diskUsage"
+          [class.high]="deviceInfo.diskUsage > 90">
+        </mat-progress-bar>
+      </div>
+
+      <div class="info-item">
+        <label>Uptime</label>
+        <p class="uptime">{{ getUptimeText(deviceInfo.uptime) }}</p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button mat-stroked-button (click)="loadDeviceInfo()">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      @if (!autoRefreshEnabled) {
+      <button mat-stroked-button (click)="toggleAutoRefresh()">
+        <mat-icon>play_arrow</mat-icon>
+        Auto-Refresh
+      </button>
+      }
+      @if (autoRefreshEnabled) {
+      <button mat-raised-button color="accent" (click)="toggleAutoRefresh()">
+        <mat-icon>pause</mat-icon>
+        Auto-Refresh On
+      </button>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Empty State -->
+  @if (!isLoading && !deviceInfo) {
+  <div class="empty-state">
+    <mat-icon>devices_other</mat-icon>
+    <p>No device information available</p>
+  </div>
+  }
+</div>

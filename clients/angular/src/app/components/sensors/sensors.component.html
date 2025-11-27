@@ -1,0 +1,100 @@
+<div class="sensors-container">
+  <!-- Loading State -->
+  @if (isLoading) {
+  <div class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading sensor data...</p>
+  </div>
+  }
+
+  <!-- Sensor Data Content -->
+  @if (!isLoading && currentReading) {
+  <div class="sensor-content">
+    <!-- Temperature & Humidity Cards -->
+    <div class="sensor-grid">
+      <!-- Temperature Card -->
+      <div class="sensor-card" [class]="'temp-' + getTemperatureColor(currentReading.temperature)">
+        <div class="sensor-header">
+          <mat-icon>thermostat</mat-icon>
+          <h3>Temperature</h3>
+        </div>
+        <div class="sensor-value">
+          {{ currentReading.temperature.toFixed(1) }}°{{ currentReading.unit }}
+        </div>
+        <div class="sensor-status">
+          {{ currentReading.temperature < 25 ? 'Normal' : 'High' }}
+        </div>
+      </div>
+
+      <!-- Humidity Card -->
+      <div class="sensor-card" [class]="'humidity-' + getHumidityStatus(currentReading.humidity)">
+        <div class="sensor-header">
+          <mat-icon>opacity</mat-icon>
+          <h3>Humidity</h3>
+        </div>
+        <div class="sensor-value">
+          {{ currentReading.humidity.toFixed(1) }}%
+        </div>
+        <div class="sensor-status">
+          {{ getHumidityStatus(currentReading.humidity) === 'normal' ? 'Optimal' : 'Caution' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Timestamp -->
+    <div class="timestamp">
+      <mat-icon>schedule</mat-icon>
+      <span>Last updated: {{ currentReading.timestamp | date: 'short' }}</span>
+    </div>
+
+    <!-- Alerts Section -->
+    @if (alerts.length > 0) {
+    <div class="alerts-section">
+      <h3>Active Alerts</h3>
+      <div class="alerts-list">
+        @for (alert of alerts; track alert.id) {
+        <div class="alert-item" [class]="'severity-' + alert.severity.toLowerCase()">
+          <mat-icon class="alert-icon">{{ getAlertSeverityIcon(alert.severity) }}</mat-icon>
+          <div class="alert-content">
+            <p class="alert-message">{{ alert.message }}</p>
+            <span class="alert-type">{{ alert.type }}</span>
+          </div>
+          <button mat-icon-button (click)="dismissAlert(alert.id)" class="dismiss-btn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- Actions -->
+    <div class="actions">
+      <button mat-stroked-button (click)="loadSensorData()">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      @if (!autoRefreshEnabled) {
+      <button mat-stroked-button (click)="toggleAutoRefresh()">
+        <mat-icon>play_arrow</mat-icon>
+        Auto-Refresh
+      </button>
+      }
+      @if (autoRefreshEnabled) {
+      <button mat-raised-button color="accent" (click)="toggleAutoRefresh()">
+        <mat-icon>pause</mat-icon>
+        Auto-Refresh On
+      </button>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Empty State -->
+  @if (!isLoading && !currentReading) {
+  <div class="empty-state">
+    <mat-icon>sensors</mat-icon>
+    <p>No sensor data available</p>
+  </div>
+  }
+</div>

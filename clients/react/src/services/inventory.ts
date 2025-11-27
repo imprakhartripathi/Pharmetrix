@@ -39,7 +39,7 @@ export async function getInventory(orgId: string, query = '', page = 1, limit = 
     const response = await axios.get<InventoryResponse>(`${baseUrl}/orgs/${orgId}/inventory`, {
       params: { q: query, page, limit },
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
     return response.data;
@@ -54,7 +54,7 @@ export async function getMedicineByBarcode(orgId: string, barcodeNo: string): Pr
     const baseUrl = await getApiBaseUrl();
     const response = await axios.get<IMedicine>(`${baseUrl}/orgs/${orgId}/medicines/${barcodeNo}`, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
     return response.data;
@@ -88,7 +88,7 @@ export async function addMedicine(orgId: string, medicine: {
     const baseUrl = await getApiBaseUrl();
     const response = await axios.post<ApiResponse>(`${baseUrl}/orgs/${orgId}/medicines`, medicine, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
     return response.data;
@@ -103,7 +103,7 @@ export async function sellMedicine(orgId: string, barcodeNo: string, qty: number
     const baseUrl = await getApiBaseUrl();
     const response = await axios.post<ApiResponse>(`${baseUrl}/orgs/${orgId}/sell`, { barcodeNo, qty }, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
     return response.data;
@@ -118,7 +118,7 @@ export async function discardBatch(orgId: string, batchId: string): Promise<ApiR
     const baseUrl = await getApiBaseUrl();
     const response = await axios.post<ApiResponse>(`${baseUrl}/orgs/${orgId}/batches/${batchId}/discard`, {}, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
     return response.data;
@@ -133,7 +133,7 @@ export async function markExpiredBatches(orgId: string): Promise<ApiResponse> {
     const baseUrl = await getApiBaseUrl();
     const response = await axios.post<ApiResponse>(`${baseUrl}/orgs/${orgId}/expire-check`, {}, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
     return response.data;

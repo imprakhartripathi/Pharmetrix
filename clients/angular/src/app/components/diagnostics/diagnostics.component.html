@@ -1,0 +1,89 @@
+<div class="diagnostics-container">
+  <!-- Overall Status -->
+  <div class="status-indicator" [class]="'status-' + overallStatus">
+    <mat-icon>
+      {{ overallStatus === 'completed' ? 'check_circle' : overallStatus === 'failed' ? 'error' : 'info' }}
+    </mat-icon>
+    <div class="status-text">
+      <p class="status-title">
+        {{ overallStatus === 'idle' ? 'Network Diagnostics' : overallStatus === 'running' ? 'Running Diagnostics...' : overallStatus === 'completed' ? 'All Tests Passed' : 'Some Tests Failed' }}
+      </p>
+      @if (overallStatus !== 'idle') {
+      <p class="status-detail">
+        {{ completedTests }} / {{ tests.length }} tests completed
+      </p>
+      }
+    </div>
+  </div>
+
+  <!-- Tests List -->
+  <div class="tests-list">
+    @for (test of tests; track test.name) {
+    <div class="test-item" [class]="'test-' + test.status">
+      <div class="test-header">
+        <div class="test-icon">
+          <mat-icon [color]="getTestIconColor(test.status)">
+            {{ getTestIcon(test.status) }}
+          </mat-icon>
+          @if (test.status === 'running') {
+          <mat-spinner
+            diameter="24"
+            class="spinner">
+          </mat-spinner>
+          }
+        </div>
+
+        <div class="test-info">
+          <h4>{{ test.name }}</h4>
+          <p class="test-status">
+            {{ test.status === 'pending' ? 'Waiting...' : test.status === 'running' ? 'In Progress...' : test.status === 'completed' ? 'Success' : 'Failed' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Test Result -->
+      @if (test.result && test.status !== 'running') {
+      <div class="test-result">
+        <p class="result-text">{{ getResultText(test.result) }}</p>
+      </div>
+      }
+
+      <!-- Test Error -->
+      @if (test.error) {
+      <div class="test-error">
+        <mat-icon>warning</mat-icon>
+        <p>{{ test.error }}</p>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Progress Bar -->
+  @if (isRunning || overallStatus === 'completed') {
+  <div class="progress-container">
+    <mat-progress-bar
+      mode="determinate"
+      [value]="(completedTests / tests.length) * 100"
+      [color]="overallStatus === 'completed' ? 'accent' : 'primary'">
+    </mat-progress-bar>
+  </div>
+  }
+
+  <!-- Action Buttons -->
+  <div class="actions">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="runDiagnostics()"
+      [disabled]="isRunning">
+      @if (!isRunning) {
+      <mat-icon>bug_report</mat-icon>
+      }
+      @if (isRunning) {
+      <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+      }
+      {{ isRunning ? 'Running...' : 'Run Diagnostics' }}
+    </button>
+  </div>
+</div>

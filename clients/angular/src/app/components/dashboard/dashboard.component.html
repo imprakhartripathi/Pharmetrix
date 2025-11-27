@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Raspberry Pi Dashboard</h1>
+    <p class="subtitle">Pharmetrix Device Onboarding System</p>
+  </div>
+
+  <div class="dashboard-content">
+    @if (currentStep === 'pairing') {
+      <div class="step-container">
+        <app-pair-device (pairingSuccess)="onPairingSuccess()"></app-pair-device>
+      </div>
+    }
+    @if (currentStep === 'active') {
+      <div class="step-container">
+        <div class="dashboard-grid">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>Device Information</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <app-device-info></app-device-info>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>Sensor Data</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <app-sensors></app-sensors>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>Network Diagnostics</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <app-diagnostics></app-diagnostics>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="dashboard-footer">
+          <button mat-raised-button color="warn" (click)="reset()">
+            <mat-icon>logout</mat-icon>
+            Reset & Unpair
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

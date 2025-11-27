@@ -49,14 +49,14 @@ const router = createBrowserRouter([
       { path: "/auth", element: <Authenticator /> }, // public login
       { path: "/", element: <RootRedirect /> }, // dynamic redirect based on auth
       { path: "/resetpw", element: <ForgetPassword /> }, // public forget password page
-
+      
       {
         element: <ProtectedLayout />, // wrapper for protected routes
         children: [
           { path: "/dashboard", element: <Dashboard /> },
-          { path: "/inventory", element: <Inventory /> },
           // Created by Aditya Goyal for streaming page: Add route to access the live camera streaming page under protected routes
           { path: "/streaming", element: <Streaming /> },
+          { path: "/inventory", element: <Inventory /> },
         ],
       },
       { path: "*", element: <NotFound /> }, // public catch-all

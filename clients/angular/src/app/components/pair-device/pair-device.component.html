@@ -1,0 +1,129 @@
+<div class="pair-device-container">
+  @if (!showStatusMonitor) {
+    <mat-card class="pairing-card">
+      <mat-card-header>
+        <mat-card-title>Device Pairing Setup</mat-card-title>
+        <mat-card-subtitle>Enter device details to begin pairing</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="pairingForm">
+          <!-- Serial Number -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Device Serial Number</mat-label>
+            <input matInput formControlName="serialNumber" placeholder="e.g., PM-RPI-001">
+            @if (pairingForm.get('serialNumber')?.hasError('required')) {
+            <mat-error>
+              Serial number is required
+            </mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Access Point -->
+          <div class="field-with-button">
+            <mat-form-field appearance="outline" class="flex-grow">
+              <mat-label>Access Point</mat-label>
+              <input matInput formControlName="accessPoint" placeholder="Auto-generated AP ID">
+              @if (pairingForm.get('accessPoint')?.hasError('required')) {
+              <mat-error>
+                Access point is required
+              </mat-error>
+              }
+            </mat-form-field>
+            <button mat-icon-button (click)="autoPopulateAP()" type="button" title="Auto-generate">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+          <!-- IMEI and IMSI -->
+          <div class="two-column">
+            <div class="field-with-button">
+              <mat-form-field appearance="outline" class="flex-grow">
+                <mat-label>IMEI</mat-label>
+                <input matInput formControlName="imei" placeholder="15 digits">
+                @if (pairingForm.get('imei')?.hasError('required')) {
+                <mat-error>
+                  IMEI is required
+                </mat-error>
+                }
+                @if (pairingForm.get('imei')?.hasError('pattern')) {
+                <mat-error>
+                  Must be 15 digits
+                </mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="field-with-button">
+              <mat-form-field appearance="outline" class="flex-grow">
+                <mat-label>IMSI</mat-label>
+                <input matInput formControlName="imsi" placeholder="15 digits">
+                @if (pairingForm.get('imsi')?.hasError('required')) {
+                <mat-error>
+                  IMSI is required
+                </mat-error>
+                }
+                @if (pairingForm.get('imsi')?.hasError('pattern')) {
+                <mat-error>
+                  Must be 15 digits
+                </mat-error>
+                }
+              </mat-form-field>
+            </div>
+          </div>
+
+          <button mat-stroked-button type="button" (click)="autoPopulateIM()" class="full-width">
+            <mat-icon>auto_awesome</mat-icon>
+            Auto-Generate IMEI & IMSI
+          </button>
+
+          <!-- Pairing ID -->
+          <div class="field-with-button">
+            <mat-form-field appearance="outline" class="flex-grow">
+              <mat-label>Unique Pairing ID</mat-label>
+              <input matInput formControlName="pairingId" placeholder="Auto-generated ID">
+              @if (pairingForm.get('pairingId')?.hasError('required')) {
+              <mat-error>
+                Pairing ID is required
+              </mat-error>
+              }
+            </mat-form-field>
+            <button mat-icon-button (click)="generatePairingId()" type="button" title="Generate ID">
+              <mat-icon>vpn_key</mat-icon>
+            </button>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="submitPairing()"
+            [disabled]="pairingForm.invalid || isSubmitting"
+            class="full-width submit-button">
+            @if (isSubmitting) {
+            <mat-spinner diameter="20" class="spinner"></mat-spinner>
+            }
+            @if (!isSubmitting) {
+            <span>
+              <mat-icon>phonelink_setup</mat-icon>
+              Start Pairing Process
+            </span>
+            }
+            @if (isSubmitting) {
+            <span>Pairing in progress...</span>
+            }
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Pairing Status Monitor -->
+  @if (showStatusMonitor && currentPairingId) {
+  <app-pairing-status
+    [pairingId]="currentPairingId"
+    (statusComplete)="onStatusComplete()">
+  </app-pairing-status>
+  }
+</div>
